@@ -1,18 +1,34 @@
 import { useState, useEffect } from 'react'
-import İmage from 'next/image'
 import userbase from 'userbase-js'
-import {error} from "next/dist/build/output/log";
+
 
 function Todo({ name, done, toggleComplete, deleteTodo }) {
     const [readMore,setReadMore] = useState(false)
-    const [visiblity,setVisiblity] = useState((name.length) >= 38 ? true : false)
+    const [changeName,setchangeName] = useState(name.length)
+    const [nameMore,setNameMore]= useState(true)
+    const [mnameMore,setmNameMore]= useState(true)
+
+    useEffect(()=>{
+        if(changeName>=16){
+            setNameMore(true)
+        }
+        else{
+            setNameMore(false)
+        }
+        if(changeName>=47){
+            setmNameMore(true)
+        }
+        else{
+            setmNameMore(false)
+        }
+    },[changeName])
+
     return (
-        <li className="my-3 p-1.5 rounded-sm bg-white">
+        <li className="my-3 p-1.5 rounded-sm bg-white shadow-lg shadow-inner">
             <div className="flex items-center justify-between max-w-full">
                 <div className="flex items-center w-3/5">
                     <span className={done ? 'text-gray-500 line-through truncate' : '' || readMore ? 'whitespace-wrap' : 'truncate'}>{name}</span>
-                    <İmage priority={visiblity} onClick={()=> setReadMore(!readMore)} width="20px" height="20px" src={readMore ? "/icons/arrow-up.svg" : "/icons/arrow-down.svg"} alt="arrow"/>
-                    {console.log(visiblity)}
+                    <img className={nameMore ? "" : "hidden"} className={mnameMore ? "" : "lg:hidden"}  onClick={()=> setReadMore(!readMore)} width="20px" height="20px" src={readMore ? "/icons/arrow-up.svg" : "/icons/arrow-down.svg"} alt="arrow"/>
                 </div>
                 <div className="flex-col sm:flex-row flex ">
                     <button
@@ -23,7 +39,7 @@ function Todo({ name, done, toggleComplete, deleteTodo }) {
                             toggleComplete()
                         }}
                     >
-                        {done ? 'tamamlanmadı' : 'tamamlandı'}
+                        <img className="font-bold w-6 wx-2 mx-auto" src={done ? "/icons/x.svg" : "/icons/check.svg"} alt="check copmlete"/>
                     </button>
                     <button
                         type="button"
@@ -93,11 +109,7 @@ function TodoForm() {
 
     function handleNewTodo(e) {
         e.preventDefault()
-        if(e.target.value === ''){
-            error('Değer girilmedi')
-        }else{
-            setNewTodo(e.target.value)
-        }
+        setNewTodo(e.target.value)
     }
 
     async function deleteTodo(itemId) {
@@ -115,6 +127,17 @@ function TodoForm() {
         }
     }
 
+    function checkIt(e) {
+        e.preventDefault()
+        if(newTodo==''){
+            setDisabled(true)
+            window.alert("Lütfen bir şeyler yazın")
+        }
+        else{
+            setDisabled(false)
+        }
+    }
+
     return (
         <form className="bg-red-100 shadow-md rounded p-8 mb-6 pb-4" onSubmit={addTodo}>
             <h2 className="text-2xl font-semibold border-b-2 border-black pb-1 inline-block">To do App</h2>
@@ -125,7 +148,7 @@ function TodoForm() {
                     value={newTodo}
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
-                <button disabled={disabled} className="btn-yellow mx-4 bg-green-400 shadow-lg rounded-sm px-3 py-1 outline-none" type="submit">
+                <button disabled={disabled} className="btn-yellow ml-4 bg-green-400 shadow-lg rounded-sm px-4 py-1 outline-none" type="submit">
                     add
                 </button>
             </div>
