@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import İmage from 'next/image'
 import userbase from 'userbase-js'
 
 
@@ -28,7 +29,7 @@ function Todo({ name, done, toggleComplete, deleteTodo }) {
             <div className="flex items-center justify-between max-w-full">
                 <div className="flex items-center w-3/5">
                     <span className={done ? 'text-gray-500 line-through truncate' : '' || readMore ? 'whitespace-wrap' : 'truncate'}>{name}</span>
-                    <img className={nameMore ? "" : "hidden"} className={mnameMore ? "" : "lg:hidden"}  onClick={()=> setReadMore(!readMore)} width="20px" height="20px" src={readMore ? "/icons/arrow-up.svg" : "/icons/arrow-down.svg"} alt="arrow"/>
+                    <İmage className={nameMore ? "" : "hidden"} className={mnameMore ? "" : "lg:hidden"}  onClick={()=> setReadMore(!readMore)} width="24px" height="24px" src={readMore ? "/icons/arrow-up.svg" : "/icons/arrow-down.svg"} alt="arrow"/>
                 </div>
                 <div className="flex-col sm:flex-row flex ">
                     <button
@@ -39,7 +40,10 @@ function Todo({ name, done, toggleComplete, deleteTodo }) {
                             toggleComplete()
                         }}
                     >
-                        <img className="font-bold w-6 wx-2 mx-auto w-6 h-6" src={done ? "/icons/x.svg" : "/icons/check.svg"} alt="check copmlete"/>
+                        <div className="font-bold w-6 wx-2 mx-auto">
+                            <img  src={done ? "/icons/x.svg" : "/icons/check.svg"} alt="check copmlete"/>
+                        </div>
+
                     </button>
                     <button
                         type="button"
