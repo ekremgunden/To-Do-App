@@ -39,7 +39,7 @@ function Todo({ name, done, toggleComplete, deleteTodo }) {
                             toggleComplete()
                         }}
                     >
-                        <img className="font-bold w-6 wx-2 mx-auto" src={done ? "/icons/x.svg" : "/icons/check.svg"} alt="check copmlete"/>
+                        <img className="font-bold w-6 wx-2 mx-auto w-6 h-6" src={done ? "/icons/x.svg" : "/icons/check.svg"} alt="check copmlete"/>
                     </button>
                     <button
                         type="button"
